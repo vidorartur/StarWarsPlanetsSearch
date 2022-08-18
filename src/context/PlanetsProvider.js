@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import MyContext from './MyContext';
+import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState(undefined);
+  const [filters, setFilters] = useState(
+    {
+      filterByNumericValues: [
+        {
+          column: 'population',
+          comparison: 'maior que',
+          value: '100000',
+        },
+      ],
+    },
+  );
   return (
-    <MyContext.Provider value={ { planets, setPlanets } }>
+    <PlanetsContext.Provider value={ { planets, setPlanets, filters, setFilters } }>
       { children }
-    </MyContext.Provider>
+    </PlanetsContext.Provider>
   );
 }
 

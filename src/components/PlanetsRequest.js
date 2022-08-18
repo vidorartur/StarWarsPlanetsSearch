@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import MyContext from '../context/MyContext';
+import PlanetsContext from '../context/PlanetsContext';
 
 const PlanetsRequest = () => {
-  const { setPlanets } = useContext(MyContext);
+  const { setPlanets } = useContext(PlanetsContext);
   const [resultado, setResultado] = useState();
   useEffect(() => {
     const func = async () => {
