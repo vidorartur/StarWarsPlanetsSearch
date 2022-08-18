@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsRequest from '../components/PlanetsRequest';
 import Table from '../components/Table';
 import PlanetsContext from '../context/PlanetsContext';
 
 function MainPage() {
-  const { setFilters } = useContext(PlanetsContext);
+  const { setFilters, filters } = useContext(PlanetsContext);
   const [filter, setFilter] = useState('');
   const [SelectColumnFilter, setSelectColumnFilter] = useState('population');
   const [SelectComparisonFilter, setSelectComparisonFilter] = useState('>');
@@ -33,18 +33,16 @@ function MainPage() {
   };
 
   const setFilterss = () => {
-    setFilters({
-      filterByNumericValues: [
-        {
-          column: SelectColumnFilter,
-          comparison: SelectComparisonFilter,
-          value: SelectNumberFilter,
-        },
-      ],
+    setFilters({ filterByNumericValues: [
+      ...filters.filterByNumericValues,
+      {
+        column: SelectColumnFilter,
+        comparison: SelectComparisonFilter,
+        value: SelectNumberFilter,
+      },
+    ],
     });
   };
-
-  useEffect(() => setFilterss(), []);
 
   return (
     <span>

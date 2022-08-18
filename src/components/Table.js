@@ -5,9 +5,11 @@ import '../App.css';
 
 const Table = (props) => {
   const { planets, filters } = useContext(PlanetsContext);
-  const selectedFilters = filters.filterByNumericValues[0];
-  const { column, comparison, value } = selectedFilters;
-  console.log(value);
+  const selectedFilters = filters.filterByNumericValues;
+  const test = filters.filterByNumericValues.map((item) => item);
+  const NUMBER_THREE = 3;
+
+  console.log(test);
   const { filter } = props;
   return (
     <div>
@@ -23,15 +25,40 @@ const Table = (props) => {
             .filter((element) => element.name.toLowerCase()
               .includes(filter.toLowerCase()))
             .filter((item) => {
-              if (item.population !== 'unknown') {
+              if (selectedFilters.length > 1) {
+                const { column, comparison, value } = test[1];
                 if (comparison === '>') {
                   return Math.round(item[column]) > Math.round([value]);
                 } if (comparison === '<') {
-                  return Math.round(item[column]) <= Math.round([value]);
+                  return Math.round(item[column]) < Math.round([value]);
                 }
                 return Math.round(item[column]) === Math.round([value]);
               }
-              return '';
+              return item;
+            })
+            .filter((item) => {
+              if (selectedFilters.length > 2) {
+                const { column, comparison, value } = test[2];
+                if (comparison === '>') {
+                  return Math.round(item[column]) > Math.round([value]);
+                } if (comparison === '<') {
+                  return Math.round(item[column]) < Math.round([value]);
+                }
+                return Math.round(item[column]) === Math.round([value]);
+              }
+              return item;
+            })
+            .filter((item) => {
+              if (selectedFilters.length > NUMBER_THREE) {
+                const { column, comparison, value } = test[3];
+                if (comparison === '>') {
+                  return Math.round(item[column]) > Math.round([value]);
+                } if (comparison === '<') {
+                  return Math.round(item[column]) < Math.round([value]);
+                }
+                return Math.round(item[column]) === Math.round([value]);
+              }
+              return item;
             })
             .map((item) => (
               <tr key={ item.name }>
