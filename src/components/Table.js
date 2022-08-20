@@ -7,8 +7,6 @@ const Table = (props) => {
   const { planets, filters } = useContext(PlanetsContext);
   const selectedFilters = filters.filterByNumericValues;
   const test = filters.filterByNumericValues.map((item) => item);
-  const NUMBER_THREE = 3;
-
   console.log(test);
   const { filter } = props;
   return (
@@ -20,10 +18,21 @@ const Table = (props) => {
               .filter((element) => element !== 'residents')
               .map((item) => (<th key={ item } className="table">{item}</th>)) : ''}
           </tr>
-
           { typeof planets !== 'undefined' ? planets
             .filter((element) => element.name.toLowerCase()
               .includes(filter.toLowerCase()))
+            .filter((item) => {
+              if (selectedFilters.length > 0) {
+                const { column, comparison, value } = test[0];
+                if (comparison === '>') {
+                  return Math.round(item[column]) > Math.round([value]);
+                } if (comparison === '<') {
+                  return Math.round(item[column]) < Math.round([value]);
+                }
+                return Math.round(item[column]) === Math.round([value]);
+              }
+              return item;
+            })
             .filter((item) => {
               if (selectedFilters.length > 1) {
                 const { column, comparison, value } = test[1];
@@ -39,18 +48,6 @@ const Table = (props) => {
             .filter((item) => {
               if (selectedFilters.length > 2) {
                 const { column, comparison, value } = test[2];
-                if (comparison === '>') {
-                  return Math.round(item[column]) > Math.round([value]);
-                } if (comparison === '<') {
-                  return Math.round(item[column]) < Math.round([value]);
-                }
-                return Math.round(item[column]) === Math.round([value]);
-              }
-              return item;
-            })
-            .filter((item) => {
-              if (selectedFilters.length > NUMBER_THREE) {
-                const { column, comparison, value } = test[3];
                 if (comparison === '>') {
                   return Math.round(item[column]) > Math.round([value]);
                 } if (comparison === '<') {

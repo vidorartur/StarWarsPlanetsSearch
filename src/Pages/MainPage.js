@@ -6,9 +6,13 @@ import PlanetsContext from '../context/PlanetsContext';
 function MainPage() {
   const { setFilters, filters } = useContext(PlanetsContext);
   const [filter, setFilter] = useState('');
+  const [column, setcolumn] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [SelectColumnFilter, setSelectColumnFilter] = useState('population');
   const [SelectComparisonFilter, setSelectComparisonFilter] = useState('>');
   const [SelectNumberFilter, setSelectNumberFilter] = useState(0);
+
+  // setcolumn();
 
   const handleChangeFilterSearch = (e) => {
     setFilter(e.target.value);
@@ -42,6 +46,13 @@ function MainPage() {
       },
     ],
     });
+    setcolumn(column.filter((item) => item !== SelectColumnFilter));
+    if (SelectColumnFilter === 'population') {
+      setSelectColumnFilter('orbital_period');
+    }
+    if (SelectColumnFilter !== 'population') {
+      setSelectColumnFilter(column[0]);
+    }
   };
 
   return (
@@ -56,23 +67,8 @@ function MainPage() {
       <select
         data-testid="column-filter"
         onChange={ handleSelectColumnFilter }
-        value={ SelectColumnFilter }
       >
-        <option>
-          population
-        </option>
-        <option>
-          orbital_period
-        </option>
-        <option>
-          diameter
-        </option>
-        <option>
-          rotation_period
-        </option>
-        <option>
-          surface_water
-        </option>
+        { column.map((element) => (<option key={ element }>{element}</option>))}
       </select>
       <select
         data-testid="comparison-filter"
