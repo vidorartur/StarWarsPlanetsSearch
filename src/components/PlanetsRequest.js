@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
-const PlanetsRequest = () => {
-  const { setPlanets } = useContext(PlanetsContext);
+function PlanetsRequest() {
   const [resultado, setResultado] = useState();
+  const { setPlanets } = useContext(PlanetsContext);
   useEffect(() => {
     const func = async () => {
       const endPoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -16,6 +16,6 @@ const PlanetsRequest = () => {
   }, []);
   setPlanets(resultado);
   return (<div />);
-};
+}
 
 export default PlanetsRequest;
